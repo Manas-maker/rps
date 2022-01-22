@@ -53,11 +53,11 @@ function computerPlay() {
 // else if 'randPlay' is 1, return 'paper'
 // else return 'scissors'
     switch (randPlay) {
-        case '0':
+        case 0:
             return 'rock';
-        case '1':
+        case 1:
             return 'paper';
-        case '2':
+        case 2:
             return 'scissors';
     }
 }
