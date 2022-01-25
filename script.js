@@ -1,54 +1,82 @@
 // create a variable 'play' that will hold player input
 let play;
-// prompt player to make a play in rock paper scissors and store in 'play'
-play = prompt("Rock Paper Scissors!");
-// convert all characters in 'play' to lowercase
-play = play.toLowerCase();
-// call function computerPlay to get random computer play and store in new variable 'cPlay'
-cPlay = computerPlay();
-// call function playGame with play and cPlay as inputs and log the result in the console
-console.log(playGame(play, cPlay));
-// create a function playGame that takes two inputs for plays from player and computer as playerSelection and computerSelection
-function playGame(playerSelection, computerSelection) {
-// if 'playerSelection' contains rock and 'computerSelection' contains scissors return 'You Win! Rock beats Scissors'
-// else if 'playerSelection' contains rock and 'computerSelection' contains rock return 'Tie!'
-// else if 'playerSelection' contains rock and 'computerSelection' contains paper return 'You Lose! Paper beats Rock'
-// else if 'playerSelection' contains paper and 'computerSelection' contains rock return 'You Win! Paper beats Rock'
-// else if 'playerSelection' contains paper and 'computerSelection' contains paper return 'Tie!'
-// else if 'playerSelection' contains paper and 'computerSelection' contains scissors return 'You Lose! Scissors beat Paper'
-// else if 'playerSelection' contains scissors and 'computerSelection' contains paper return 'You Win! Scissors beats Paper'
-// else if 'playerSelection' contains scissors and 'computerSelection' contains scissors return 'Tie!'
-// else if 'playerSelection' contains scissors and 'computerSelection' contains rock return 'You Lose! Rock beats Scissors'
-if (computerSelection == playerSelection) {
-    return 'Tie!';
+const result = document.querySelector('#result');
+const btns = document.querySelectorAll('button');
+let cScore = 0;
+let pScore = 0;
+pScorePara = document.querySelector('#pScore');
+cScorePara = document.querySelector('#cScore');
+btns.forEach((btn) => btn.addEventListener('click', () => {
+    result.textContent = (playGame(btn));
+    pScorePara.textContent = pScore;
+    cScorePara.textContent = cScore;
+}));
+
+function playGame(btnClicked) {
+    playerSelection = btnClicked.value;
+    const computerSelection = computerPlay();
+    
+    if (computerSelection == playerSelection) {
+        return 'Tie!';
+    }
+    switch (playerSelection) {
+        case 'rock':
+            if (computerSelection == 'scissors') {
+                pScore += 1;
+                current = checkScore();
+                if (current === 'Continue') {
+                    return 'Rock beats Scissors';
+                }
+                else return current;
+            }
+            else if (computerSelection == 'paper') {
+                cScore += 1;
+                current = checkScore()
+                if (current === 'Continue') {
+                    return 'Paper beats Rock';
+                }
+                else return current;
+            }
+        case 'paper':
+            if (computerSelection == 'rock') {
+                pScore += 1;
+                current = checkScore()
+                if (current === 'Continue') {
+                    return 'Paper beats Rock';
+                }
+                else return current;
+            }
+            else if (computerSelection == 'scissors') {
+                cScore += 1;
+                current = checkScore();
+                if (current === 'Continue') {
+                    return 'Scissors beat Paper';
+                }
+                else return current;
+            }
+        case 'scissors':
+            if (computerSelection == 'paper'){
+                pScore += 1;
+                current = checkScore();
+                if (current === 'Continue') {
+                    return 'Scissors beat Paper';
+                }
+                else return current;
+            }
+            else if (computerSelection == 'rock'){
+                cScore += 1;
+                current = checkScore();
+                if (current === 'Continue') {
+                    return 'Rock beats Scissors';
+                }
+                else return current;
+            }
+    } 
 }
-switch (playerSelection) {
-    case 'rock':
-        if (computerSelection == 'scissors') {
-            return 'You Win! Rock beats Scissors';
-        }
-        else if (computerSelection == 'paper') {
-            return 'You Lose! Paper beats Rock';
-        }
-    case 'paper':
-        if (computerSelection == 'rock') {
-            return 'You Win! Paper beats Rock';
-        }
-        else if (computerSelection == 'scissors') {
-            return 'You Lose! Scissors beat Paper';
-        }
-    case 'scissors':
-        if (computerSelection == 'paper'){
-            return 'You Win! Scissors beat Paper';
-        }
-        else if (computerSelection == 'rock'){
-            return 'You Lose! Rock beats Scissors';
-        }
-} }
 // create a function computerPlay that randomly generates 'rock', 'paper' or scissors'
 function computerPlay() {
 // randomly generate a number between 0 and 2 and store in new variable 'randPlay'
-    let randPlay = Math.round(Math.random()*2);
+    let randPlay = Math.floor(Math.random()*3);
 // if 'randPlay' is 0, return 'rock'
 // else if 'randPlay' is 1, return 'paper'
 // else return 'scissors'
@@ -60,4 +88,19 @@ function computerPlay() {
         case 2:
             return 'scissors';
     }
+}
+
+function checkScore() {
+    if (pScore == 5) {
+        pScore = 0;
+        cScore = 0;
+        return 'You Win';
+    }
+    else if (cScore == 5) {
+        pScore = 0;
+        cScore = 0;
+        result.textContent = 'You Lose!';
+        return 'You Lose';
+    }
+    else return 'Continue';
 }
