@@ -7,12 +7,12 @@ let pScore = 0;
 pScorePara = document.querySelector('#pScore');
 cScorePara = document.querySelector('#cScore');
 btns.forEach((btn) => btn.addEventListener('click', () => {
-    result.textContent = (playGame(btn));
+    result.textContent = (playRound(btn));
     pScorePara.textContent = pScore;
     cScorePara.textContent = cScore;
 }));
 
-function playGame(btnClicked) {
+function playRound(btnClicked) {
     playerSelection = btnClicked.value;
     const computerSelection = computerPlay();
     
